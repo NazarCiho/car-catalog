@@ -1,0 +1,67 @@
+.footer {
+  background-color: #cccccc;
+  padding: 50px 130px 10px 130px;
+  text-align: left;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap:100px;
+}
+
+.footer-logo {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-links,
+.footer-about,
+.footer-support {
+  flex: 1;
+  min-width: 150px;
+}
+
+.footer h4 {
+  margin-bottom: 10px;
+}
+
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+} 
+
+.footer li {
+  margin-bottom: 5px;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #888;
+}
+
+.social-items{
+  display: flex;
+  gap: 20px;
+}
+.social-items svg{
+  font-size: 25px;
+}
+.logo-img-ft{
+  width: 70px;
+  height : auto !important;
+  border-radius: 50%;
+  margin-right: 10px; /* Відступ між логотипом та текстом */
+}
+
+.social-items svg{
+  transition: 0.3s ease-in-out;
+  border-radius: 50%;
+}
+.social-items svg:hover{
+  transform: scale(1.35);
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.2);
+}
