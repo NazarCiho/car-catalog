@@ -79,7 +79,7 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
 
       setIsLoading(true);
       try {
-        const response = await getMakesByVehicleType(selectedType, 1); // Завжди починаємо з першої сторінки
+        const response = await getMakesByVehicleType(selectedType, 1); 
         setFilteredMakes(response.makes || []);
       } catch (error) {
         console.error("Error fetching makes by type:", error);
@@ -96,10 +96,8 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
     console.log('Year changed to:', year, selectedMake, showDetails);
     setSelectedYear(year);
     
-    // Додаємо прямий виклик API при зміні року
     if (selectedMake && showDetails) {
       setIsLoading(true);
-      console.log('■■■■■■■■■■■dedeed')
       try {
         const modelsData = await getModelsForMake(selectedMake, year);
         console.log('Models for new year:', modelsData);
@@ -139,14 +137,14 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
     try {
       const modelDetails = await getModelDetails(make, model);
 
-      setSelectedModelDetails(modelDetails);  // Встановлюємо отримані деталі моделі
+      setSelectedModelDetails(modelDetails); 
     } catch (error) {
       console.error("Помилка отримання деталей моделі:", error);
     } finally {
       setIsLoading(false);
     }
   };
-  const [allMakes, setAllMakes] = useState<CarMake[]>([]); // ВСІ марки
+  const [allMakes, setAllMakes] = useState<CarMake[]>([]); 
 const [isFetchingAll, setIsFetchingAll] = useState(false);
 
 // Завантажуємо всі марки тільки ОДИН раз
@@ -154,7 +152,7 @@ useEffect(() => {
   const fetchAllMakes = async () => {
     setIsFetchingAll(true);
     try {
-      const response = await getMakesByVehicleType("car", 1, 1000); // Отримуємо ВСІ (1000 - умовне число)
+      const response = await getMakesByVehicleType("car", 1, 1000); 
       setAllMakes(response.makes);
     } catch (error) {
       console.error("Помилка завантаження всіх брендів:", error);
@@ -184,7 +182,7 @@ useEffect(() => {
   const handleTypeFilter = (type: string) => {
     setSelectedType(type);
     setSearchTerm("");
-    onPageChange(1); // Скидаємо сторінку при зміні типу
+    onPageChange(1); 
   };
   
   const renderBrandCard = (make: CarMake, isPopular: boolean = false) => {
@@ -198,7 +196,7 @@ useEffect(() => {
         onClick={() => handleMakeSelect(make.MakeName)}
       >
         <div className="brand-logo">
-          {make.MakeName?.charAt(0) ?? "?"} {/* Якщо немає MakeName, ставимо "?" */}
+          {make.MakeName?.charAt(0) ?? "?"} 
         </div>
         <h3 className="brand-name">{make.MakeName}</h3>
         <button className="view-models-btn">

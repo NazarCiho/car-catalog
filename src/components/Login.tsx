@@ -118,7 +118,7 @@ const Login: React.FC = () => {
               <input type="checkbox" />
               <span>Запам'ятати мене</span>
             </label>
-            <a href="#" className="forgot-password">Забули пароль?</a>
+            <a href="/" className="forgot-password">Забули пароль?</a>
           </motion.div>
 
           <motion.button
