@@ -1,4 +1,280 @@
-.VinDecoder{
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+  color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.VinDecoder {
+  display: flex;
+  justify-content: space-between;
   background-color: white;
   padding: 0 20px 20px 20px !important;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  gap: 250px;
+  margin: 15px 0;
+}
+
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.vin-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.vin-input:focus {
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.6);
+}
+
+.decode-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background: linear-gradient(90deg, #ff8c00, #ff4500);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.decode-button:hover {
+  background: linear-gradient(90deg, #ff4500, #ff8c00);
+  transform: scale(1.05);
+
+}
+
+.decode-button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+
+.error-alert {
+  text-align: center;
+  color: #ff4d4d;
+  font-size: 16px;
+  margin-top: 10px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.examples {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 10px;
+}
+
+.results {
+  margin-top: 20px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.results h2 {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.results ul {
+  list-style: none;
+  padding: 0;
+}
+
+.results li {
+  font-size: 16px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.results li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.decoder-card{
+  min-width: 351px;
+}
+.copy-btn {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: #0b9110;
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+
+.copy-btn:hover {
+  background-color: #45a049;
+}
+
+.vin-decoder-info {
+  max-width: 500px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  animation: slideIn 0.6s ease-out;
+}
+
+.vin-decoder-info h2 {
+  color: #ff8c00;
+  margin-bottom: 15px;
+  font-size: 1.8em;
+}
+
+.vin-decoder-info p {
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.vin-structure {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.vin-section {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+
+.vin-section:hover {
+  transform: translateX(10px);
+}
+
+.section-number {
+  background: #ff8c00;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.example-item {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+
+.example-item:hover {
+  transform: translateY(-5px);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #ff8c00;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.make-logo{
+  background: #82ec5f;
+    border-radius: 50%;
+    min-width: 20px;
+    min-height: 20px;
+    align-items: center;
+    display: flex;
+    text-align: center;
+    flex-direction: column-reverse;
 }

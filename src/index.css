@@ -19,18 +19,43 @@ main{
   background-color: white;
   padding: 0 20px 20px 20px !important;
 }
-/* Додайте це у ваш CSS файл */
 .loading-spinner {
-  border: 8px solid #f3f3f3; /* Світло-сірий фон */
-  border-top: 8px solid #007bff; /* Синій колір для верхньої частини */
-  border-radius: 50%; /* Кругла форма */
-  width: 50px; /* Ширина спінера */
-  height: 50px; /* Висота спінера */
-  animation: spin 1s linear infinite; /* Анімація обертання */
-  margin: 100px auto; /* Центрування спінера */
+  border: 8px solid #f3f3f3; 
+  border-top: 8px solid #007bff; 
+  border-radius: 50%;
+  width: 50px;
+  height: 50px; 
+  animation: spin 1s linear infinite; 
+  margin: 100px auto; 
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+::-webkit-scrollbar {
+  width: 13px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(96, 96, 96);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #32cd32, #98fb98);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #28a428, #822121);
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+

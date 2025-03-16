@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getModelsForMake, getMakeDetails, getMakesByVehicleType } from '../services/api.ts';
+import { getModelsForMake, getMakeDetails, getMakesByVehicleType, getModelDetails } from '../services/api.ts';
 import './CarList.css';
 
 interface CarMake {
@@ -28,6 +28,17 @@ interface CarsListProps {
   onPageChange: (page: number) => void;
 }
 
+const ALL_VEHICLE_TYPES = [
+  "Passenger Car",
+  "Truck",
+  "Multipurpose Passenger Vehicle (MPV)",
+  "Motorcycle",
+  "LSV",
+  "Bus",
+  "Trailer",
+  "Incomplete Vehicle"
+];
+
 const years = Array.from({ length: 2024 - 1995 + 1 }, (_, i) => 2024 - i);
 const vehicleTypes = ["Всі", "Passenger Car", "Truck", "Multipurpose Passenger Vehicle", "Motorcycle", "LSV"];
 
@@ -41,7 +52,9 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
   const [makeDetails, setMakeDetails] = useState<MakeDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [selectedModelDetails, setSelectedModelDetails] = useState<any | null>(null);
 
+  console.log("■■■■carMakes:", carMakes);
   // Ефект для пошуку
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -79,17 +92,38 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
     filterMakesByType();
   }, [selectedType, carMakes.makes]);
 
-  const handleMakeSelect = async (makeName: string) => {
-    if (!makeName) return;
+  const handleYearChange = async (year: number) => {
+    console.log('Year changed to:', year, selectedMake, showDetails);
+    setSelectedYear(year);
+    
+    // Додаємо прямий виклик API при зміні року
+    if (selectedMake && showDetails) {
+      setIsLoading(true);
+      console.log('■■■■■■■■■■■dedeed')
+      try {
+        const modelsData = await getModelsForMake(selectedMake, year);
+        console.log('Models for new year:', modelsData);
+        setModels(modelsData);
+      } catch (error) {
+        console.error("Error fetching models for new year:", error);
+        setModels([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const handleMakeSelect = async (MakeName: string) => {
+    if (!MakeName) return;
     
     setIsLoading(true);
-    setSelectedMake(makeName);
+    setSelectedMake(MakeName);
     setShowDetails(true);
     
     try {
       const [modelsData, detailsData] = await Promise.all([
-        getModelsForMake(makeName, selectedYear),
-        getMakeDetails(makeName)
+        getModelsForMake(MakeName, selectedYear),
+        getMakeDetails(MakeName)
       ]);
       
       setModels(modelsData);
@@ -100,14 +134,61 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
       setIsLoading(false);
     }
   };
+  const handleModelDetails = async (make: string, model: string) => {
+    setIsLoading(true);
+    try {
+      const modelDetails = await getModelDetails(make, model);
 
+      setSelectedModelDetails(modelDetails);  // Встановлюємо отримані деталі моделі
+    } catch (error) {
+      console.error("Помилка отримання деталей моделі:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const [allMakes, setAllMakes] = useState<CarMake[]>([]); // ВСІ марки
+const [isFetchingAll, setIsFetchingAll] = useState(false);
+
+// Завантажуємо всі марки тільки ОДИН раз
+useEffect(() => {
+  const fetchAllMakes = async () => {
+    setIsFetchingAll(true);
+    try {
+      const response = await getMakesByVehicleType("car", 1, 1000); // Отримуємо ВСІ (1000 - умовне число)
+      setAllMakes(response.makes);
+    } catch (error) {
+      console.error("Помилка завантаження всіх брендів:", error);
+    } finally {
+      setIsFetchingAll(false);
+    }
+  };
+
+  fetchAllMakes();
+}, []);
+
+useEffect(() => {
+  const delayDebounce = setTimeout(() => {
+    if (searchTerm.trim()) {
+      const filtered = allMakes.filter(make => 
+        make?.MakeName?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredMakes(filtered);
+    } else {
+      setFilteredMakes(carMakes.makes);
+    }
+  }, 300);
+
+  return () => clearTimeout(delayDebounce);
+}, [searchTerm, allMakes, carMakes.makes]);
+  
   const handleTypeFilter = (type: string) => {
     setSelectedType(type);
     setSearchTerm("");
     onPageChange(1); // Скидаємо сторінку при зміні типу
   };
-
+  
   const renderBrandCard = (make: CarMake, isPopular: boolean = false) => {
+
     if (!make?.MakeName) return null;
     
     return (
@@ -117,7 +198,7 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
         onClick={() => handleMakeSelect(make.MakeName)}
       >
         <div className="brand-logo">
-          {make.MakeName.charAt(0)}
+          {make.MakeName?.charAt(0) ?? "?"} {/* Якщо немає MakeName, ставимо "?" */}
         </div>
         <h3 className="brand-name">{make.MakeName}</h3>
         <button className="view-models-btn">
@@ -153,6 +234,21 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
     );
   };
 
+  const renderVehicleTypes = (makeTypes: string[]) => {
+    return (
+      <div className="vehicle-types-grid">
+        {ALL_VEHICLE_TYPES.map((type) => (
+          <div key={type} className="vehicle-type-item">
+            <span className="type-name ALL_VEHICLE_TYPES">{type}</span>
+            <span className={`type-indicator ${makeTypes.includes(type) ? 'available' : 'not-available'}`}>
+              {makeTypes.includes(type) ? '✓' : '×'}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="catalog-container">
       <div className="catalog-header">
@@ -178,7 +274,7 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
           <div className="filter-group">
             <select 
               value={selectedYear} 
-              onChange={(e) => setSelectedYear(Number(e.target.value))}
+              onChange={(e) => handleYearChange(Number(e.target.value))}
               className="filter-select"
             >
               <option value="">Оберіть рік</option>
@@ -202,8 +298,6 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
 
       {isLoading ? (
         <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Завантаження...</p>
         </div>
       ) : (
         <>
@@ -226,9 +320,9 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
                     <span className="stat-label">Країна виробника</span>
                     <span className="stat-value">{makeDetails.Country}</span>
                   </div>
-                  <div className="stat">
+                  <div className="stat vehicle-types-stat">
                     <span className="stat-label">Типи транспорту</span>
-                    <span className="stat-value">{makeDetails.VehicleTypes.join(", ")}</span>
+                    {renderVehicleTypes(makeDetails.VehicleTypes)}
                   </div>
                   <div className="stat">
                     <span className="stat-label">Кількість моделей</span>
@@ -242,7 +336,7 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
                     {models.map((model) => (
                       <div key={model.Model_ID} className="model-card">
                         <h4>{model.Model_Name}</h4>
-                        <button className="details-btn">Деталі</button>
+                        <button className="details-btn" onClick={() => handleModelDetails(model.Make_Name, model.Model_Name)}></button>
                       </div>
                     ))}
                   </div>

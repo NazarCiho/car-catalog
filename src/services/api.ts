@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Базовий URL API
 const API_BASE = "https://vpic.nhtsa.dot.gov/api/vehicles";
 
 interface ApiResponse<T> {
@@ -16,13 +15,13 @@ interface PaginatedResponse<T> {
   totalPages: number;
 }
 
-// Запит для отримання всіх брендів з пагінацією
+// отрммання всіх брендів
 export const getAllMakes = async (page: number = 1, pageSize: number = 50): Promise<PaginatedResponse<any>> => {
   console.log('Викликано getAllMakes з параметрами:', { page, pageSize });
   try {
-    console.log('Виконуємо запит до:', `${API_BASE}/GetAllMakes?format=json`);
+    console.log('Виконуємо запит до:', `${API_BASE}/GetMakesForVehicleType/car?format=json`);
     const response = await axios.get<ApiResponse<any>>(
-      `${API_BASE}/GetAllMakes?format=json`
+      `${API_BASE}/GetMakesForVehicleType/car?format=json`
     );
     
     console.log('Отримано відповідь від API:', response.data);
@@ -42,7 +41,7 @@ export const getAllMakes = async (page: number = 1, pageSize: number = 50): Prom
       totalPages: Math.ceil(total / pageSize),
       makesCount: makes.length
     });
-
+    console.log("Отримані марки у CarsList:", makes);
     return {
       makes,
       total,
@@ -62,16 +61,16 @@ export const getAllMakes = async (page: number = 1, pageSize: number = 50): Prom
   }
 };
 
-// Запит для отримання деталей бренду
+// запит для отриання деталей марки
 export const getMakeDetails = async (make: string) => {
   try {
     const [details, types] = await Promise.all([
       axios.get<ApiResponse<any>>(`${API_BASE}/GetManufacturerDetails/${make}?format=json`),
       axios.get<ApiResponse<any>>(`${API_BASE}/GetVehicleTypesForMake/${make}?format=json`)
     ]);
-
     const makeDetails = details.data.Results[0] || {};
     const vehicleTypes = types.data.Results || [];
+    console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■details:", makeDetails);
 
     return {
       ...makeDetails,
@@ -83,20 +82,22 @@ export const getMakeDetails = async (make: string) => {
   }
 };
 
-// Запит для отримання моделей бренду за рік
+// отримання моделей бренду за рік
 export const getModelsForMake = async (make: string, year: number) => {
   try {
+    console.log(`Requesting models for ${make}, year ${year}`); 
     const response = await axios.get<ApiResponse<any>>(
-      `${API_BASE}/GetModelsForMake/${make}?year=${year}&format=json`
+      `${API_BASE}/GetModelsForMakeYear/make/${make}/modelyear/${year}?format=json`
     );
-    return response.data.Results;
+    console.log('API Response:', response.data); 
+    return response.data.Results || [];
   } catch (error) {
     console.error('Error fetching models:', error);
     throw error;
   }
 };
 
-// Запит для отримання брендів за типом транспорту з пагінацією
+// отримання брендів за типом транспорту 
 export const getMakesByVehicleType = async (
   vehicleType: string,
   page: number = 1,
@@ -128,4 +129,22 @@ export const getManufacturerDetails = async (manufacturer: string) => {
   console.log("getManufacturerDetails");
   const response = await axios.get<ApiResponse<any>>(`${API_BASE}/GetManufacturerDetails/${manufacturer}?format=json`);
   return response.data.Results;
+};
+
+export const getModelDetails = async (make: string, model: string) => {
+  try {
+    console.log("getModelDetails, make:", make, "model:", model);
+    const response = await axios.get<ApiResponse<any>>(
+      `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/${make}?format=json`
+    );
+    
+    const modelDetails = response.data.Results.find(
+      (m: any) => m.Model_Name === model
+    );
+    console.log("modelDetails:", modelDetails);
+    return modelDetails || null;
+  } catch (error) {
+    console.error('Error fetching model details:', error);
+    throw error;
+  }
 };

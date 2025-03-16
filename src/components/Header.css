@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #fff; /* Змінити на бажаний колір фону */
+  background-color: #fff; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
   
@@ -15,12 +15,12 @@
 
 .nav {
   display: flex;
-  gap: 20px; /* Відстань між навігаційними посиланнями */
+  gap: 20px; 
 }
 
 .nav a {
   text-decoration: none;
-  color: #000; /* Колір тексту */
+  color: #000; 
   font-weight: bold;
   transition: 0.3s;
 }
@@ -30,7 +30,7 @@
 
 .auth {
   display: flex;
-  gap: 10px; /* Відстань між кнопками */
+  gap: 10px; 
 }
 
 .login-button,
@@ -38,19 +38,19 @@
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 4px;
-  color: #fff; /* Колір тексту */
+  color: #fff;
 }
 
 .login-button {
-  background-color: #007BFF; /* Колір кнопки "Увійти" */
+  background-color: #007BFF; 
 }
 
 .register-button {
-  background-color: #b60572; /* Колір кнопки "Розмістити безкоштовно" */
+  background-color: #b60572; 
 }
 .logo-img{
   width: 160px;
   height : auto !important;
   border-radius: 10px;
-  margin-right: 10px; /* Відступ між логотипом та текстом */
+  margin-right: 10px; 
 }

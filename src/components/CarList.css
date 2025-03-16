@@ -5,6 +5,7 @@
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin: 15px 0;
 }
 
 .catalog-header {
@@ -96,8 +97,6 @@
   border-color: #4CAF50;
   box-shadow: 0 0 10px rgba(76, 175, 80, 0.1);
 }
-
-
 
 .spinner {
   width: 50px;
@@ -219,7 +218,7 @@
 
 .section-title {
   font-size: 1.8rem;
-  color: #333;
+  color: rgb(150, 150, 150);
   margin: 40px 0 30px;
   text-align: center;
 }
@@ -411,5 +410,70 @@
   .pagination {
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+.vehicle-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.vehicle-type-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.vehicle-type-item:hover {
+  transform: translateX(5px);
+  border-color: #4CAF50;
+}
+
+.type-name {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.type-indicator {
+  font-weight: bold;
+  font-size: 1.1rem;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.type-indicator.available {
+  color: #4CAF50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.type-indicator.not-available {
+  color: #ff5252;
+  background: rgba(255, 82, 82, 0.1);
+}
+
+.vehicle-types-stat {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .vehicle-types-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .vehicle-type-item {
+    padding: 6px 12px;
   }
 }

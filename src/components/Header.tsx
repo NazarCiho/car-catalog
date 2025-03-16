@@ -13,10 +13,6 @@ const Header: React.FC = () => {
       <nav className="nav">
         <Link to="/cars">Каталог автомобілей</Link>
         <Link to="/decode-VIN">Розшифрувати VIN</Link>
-        <Link to="/catalog">Каталог</Link>
-        <Link to="/promotions">Акція</Link>
-        <Link to="/company">Компанія</Link>
-        <Link to="/news">Новини</Link>
       </nav>
       <div className="auth">
         <Link to="/login" className="login-button">Увійти</Link>

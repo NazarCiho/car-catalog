@@ -29,9 +29,9 @@ const MainContent: React.FC = () => {
           <p className="hero-subtitle hidden">Знайдіть автомобіль своєї мрії</p>
           <div className="hero-buttons hidden">
             <button className="primary-button">
-              <Link to="/cars">Переглянути каталог</Link>
+              <Link className="firstbutt" to="/cars">Переглянути каталог</Link>
             </button>
-            <button className="secondary-button">Зв'язатися з нами</button>
+            <button className="secondary-button"><Link className="addbutt" to="/decode-VIN">Розшифруйте VIN код</Link></button>
           </div>
           <div className="hero-stats hidden">
             <div className="stat-item">
@@ -43,7 +43,7 @@ const MainContent: React.FC = () => {
               <span className="stat-label">Клієнтів</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">50+</span>
+              <span className="stat-number">190+</span>
               <span className="stat-label">Брендів</span>
             </div>
           </div>
@@ -97,7 +97,7 @@ const MainContent: React.FC = () => {
         <div className="testimonials-grid">
           <div className="testimonial-card">
             <img src="https://images.unsplash.com/photo-1545167622-3a6ac756afa4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmFjZXN8ZW58MHx8MHx8fDA%3D" alt="Олександр Петренко" className="testimonial-image" />
-            <h3 className="testimonial-name">Олександр Петренко</h3>
+            <h3 className="testimonial-name">Олександр Петрович</h3>
             <p className="testimonial-company">IT Project Manager</p>
             <div className="quote-icon">
               <span>"</span>
@@ -110,7 +110,7 @@ const MainContent: React.FC = () => {
 
           <div className="testimonial-card">
             <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGZhY2VzfGVufDB8fDB8fHww" alt="Марія Ковальчук" className="testimonial-image" />
-            <h3 className="testimonial-name">Марія Ковальчук</h3>
+            <h3 className="testimonial-name">Марія Парент</h3>
             <p className="testimonial-company">Власниця салону краси</p>
             <div className="quote-icon">
               <span>"</span>
@@ -123,7 +123,7 @@ const MainContent: React.FC = () => {
 
           <div className="testimonial-card">
             <img src="https://images.unsplash.com/photo-1594819047050-99defca82545?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2VzfGVufDB8fDB8fHww" alt="Віталій Коваленко" className="testimonial-image" />
-            <h3 className="testimonial-name">Віталій Коваленко</h3>
+            <h3 className="testimonial-name">Віталій Програміст</h3>
             <p className="testimonial-company">Підприємець</p>
             <div className="quote-icon">
               <span>"</span>
