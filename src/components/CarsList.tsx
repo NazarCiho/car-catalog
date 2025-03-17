@@ -55,7 +55,7 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
   const [selectedModelDetails, setSelectedModelDetails] = useState<any | null>(null);
 
   console.log("■■■■carMakes:", carMakes);
-  // Ефект для пошуку
+  // пошук
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (carMakes.makes && carMakes.makes.length > 0) {
@@ -69,7 +69,7 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
     return () => clearTimeout(delayDebounce);
   }, [searchTerm, carMakes.makes]);
 
-  // Ефект для фільтрації за типом транспорту
+  // фільтр за типом 
   useEffect(() => {
     const filterMakesByType = async () => {
       if (selectedType === "Всі") {
@@ -147,7 +147,7 @@ const CarsList: React.FC<CarsListProps> = ({ carMakes, onPageChange }) => {
   const [allMakes, setAllMakes] = useState<CarMake[]>([]); 
 const [isFetchingAll, setIsFetchingAll] = useState(false);
 
-// Завантажуємо всі марки тільки ОДИН раз
+// zавантажуємо всі марки
 useEffect(() => {
   const fetchAllMakes = async () => {
     setIsFetchingAll(true);
